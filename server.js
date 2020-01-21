@@ -122,19 +122,26 @@ bot.onText(/\/findRestaurantsByPlaces/, (msg) => {
 
           if (!_.isEmpty(term) && !_.isEmpty(location)) {
             const result = await findRestaurantsByLocation(term, location);
-            if (!_.isEmpty(result)) {
+            if (!_.isEmpty(result.businesses)) {
               result.businesses.forEach((item, i) => {
+                const name = item.name;
+                const rating = item.rating;
+                const phone = item.display_phone;
                 const locationStr = item.location.display_address.join(', ');
+                const url = item.url;
 
                 const resultMessage = `
-                  <b>Name:</b> ${item.name}
-<b>Rating:</b> ${item.rating}
-<b>Phone:</b> ${item.display_phone}
+                  <b>Name:</b> ${name}
+<b>Rating:</b> ${rating}
+<b>Phone:</b> ${phone}
 <b>Address:</b> ${locationStr}
-<b>Url:</b> <a href="${item.url}">Open in yelp</a>
+<b>Url:</b> <a href="${url}">Open in yelp</a>
                 `;
                 bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
               });
+            } else {
+                const resultMessage = `There are no results`;
+                bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
             }
           }
         }
@@ -163,9 +170,11 @@ bot.onText(/\/findRestaurantByPhone/, (msg) => {
     answerCallbacks[chatId] = async (answer) => {
       const phone = answer.text.replace(/\s/g, "");
 
+      bot.sendMessage(chatId, 'waiting...');
+
       if (!_.isEmpty(phone)) {
         const result = await findRestaurantByPhone(phone);
-        if (!_.isEmpty(result)) {
+        if (!_.isEmpty(result.businesses)) {
           const item = result.businesses[0];
 
           const name = item.name;
@@ -185,6 +194,9 @@ bot.onText(/\/findRestaurantByPhone/, (msg) => {
           bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
           bot.sendVenue(chatId, latitude, longitude, name, locationStr);
           bot.sendPhoto(chatId, imageUrl);
+        } else {
+          const resultMessage = `There are no result`;
+          bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
         }
       }
     }
