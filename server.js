@@ -173,7 +173,7 @@ bot.onText(/\/findRestaurantByPhone/, (msg) => {
           const rating = item.rating;
           const latitude = item.coordinates.latitude;
           const longitude = item.coordinates.longitude;
-          const locationStr = item.location.display_address.join(',');
+          const locationStr = item.location.display_address.join(', ');
           const phone = item.display_phone;
 
           const resultMessage = `
