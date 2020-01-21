@@ -13,6 +13,29 @@ const ROOT_URL = `https://lunch-picker-api.herokuapp.com`;
 
 let answerCallbacks = {};
 
+async function getCategories() {
+  let result = null;
+
+  const response = await axios.get(
+    `${ROOT_URL}/api/category/get-categories`,
+    {
+      params: {
+        term: term,
+        location: location
+      },
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  );
+
+  if (!_.isEmpty(response)) {
+    result = response.data.categories;
+  }
+
+  return result;
+}
+
 async function findRestaurantsByLocation(term, location) {
   let result = null;
 
