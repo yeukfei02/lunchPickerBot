@@ -14,3 +14,29 @@ $ yarn start
 ```
 
 Open http://t.me/lunchPickerMyBot
+
+## Example command:
+
+Show all example command
+
+```
+/start
+```
+
+Find restaurants by places
+
+```
+/findRestaurantsByPlaces
+```
+
+Find restaurants by current location
+
+```
+/findRestaurantsByCurrentLocation
+```
+
+Find restaurant by phone
+
+```
+/findRestaurantByPhone
+```
