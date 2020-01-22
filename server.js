@@ -13,6 +13,46 @@ const ROOT_URL = `https://lunch-picker-api.herokuapp.com`;
 
 let answerCallbacks = {};
 
+function getAvailableCountry() {
+  const availableCountry = [
+      "Argentina",
+      "Australia",
+      "Austria",
+      "Belgium",
+      "Brazil",
+      "Canada",
+      "Chile",
+      "Czech Republic",
+      "Denmark",
+      "Finland",
+      "France",
+      "Germany",
+      "Hong Kong",
+      "Italy",
+      "Japan",
+      "Malaysia",
+      "Mexico",
+      "New Zealand",
+      "Norway",
+      "Philippines",
+      "Poland",
+      "Portugal",
+      "Republic of Ireland",
+      "Singapore",
+      "Spain",
+      "Sweden",
+      "Switzerland",
+      "Taiwan",
+      "The Netherlands",
+      "Turkey",
+      "United Kingdom",
+      "United States"
+    ];
+
+    const availableCountryText = `Available country:\n${availableCountry.join(', ')}`;
+    return availableCountryText;
+}
+
 async function getCategories() {
   let result = null;
 
@@ -45,30 +85,6 @@ async function findRestaurantsByLocation(term, location) {
       params: {
         term: term,
         location: location
-      },
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  );
-
-  if (!_.isEmpty(response)) {
-    result = response.data.restaurants;
-  }
-
-  return result;
-}
-
-async function findRestaurantsByLatLong(term) {
-  let result = null;
-
-  const response = await axios.get(
-    `${ROOT_URL}/api/restaurant/find-restaurants-by-lat-long`,
-    {
-      params: {
-        term: term,
-        latitude: 0,
-        longitude: 0,
       },
       headers: {
         "Content-Type": "application/json"
@@ -117,16 +133,20 @@ Show all example command
 /findRestaurantsByPlaces
 Find restaurants by places
 
-/findRestaurantsByCurrentLocation
-Find restaurants by current location
-
 /findRestaurantByPhone
 Find restaurant by phone
   `;
 
   bot.sendMessage(chatId, response, {
     "reply_markup": {
-      "keyboard": [["/start"], ["/findRestaurantsByPlaces", "/findRestaurantsByCurrentLocation"], ["/findRestaurantByPhone"]]
+      "keyboard": [["/start"], ["/findRestaurantsByPlaces"], ["/findRestaurantByPhone"]]
+    }
+  });
+
+  const availableCountryText = getAvailableCountry();
+  bot.sendMessage(chatId, availableCountryText, {
+    "reply_markup": {
+      "keyboard": [["/start"], ["/findRestaurantsByPlaces"], ["/findRestaurantByPhone"]]
     }
   });
 });
@@ -175,18 +195,6 @@ bot.onText(/\/findRestaurantsByPlaces/, (msg) => {
   });
 });
 
-// /findRestaurantsByCurrentLocation
-bot.onText(/\/findRestaurantsByCurrentLocation/, (msg) => {
-  const chatId = msg.chat.id;
-
-  bot.sendMessage(chatId, 'Please enter your food category:').then(() => {
-    answerCallbacks[chatId] = (answer) => {
-      const term = answer.text;
-
-    }
-  });
-});
-
 // /findRestaurantByPhone
 bot.onText(/\/findRestaurantByPhone/, (msg) => {
   const chatId = msg.chat.id;
@@ -195,9 +203,9 @@ bot.onText(/\/findRestaurantByPhone/, (msg) => {
     answerCallbacks[chatId] = async (answer) => {
       const phone = answer.text.replace(/\s/g, "");
 
-      bot.sendMessage(chatId, 'waiting...');
+      if (!_.isEmpty(phone) && /^[+\d]+$/.test(phone)) {
+        bot.sendMessage(chatId, 'waiting...');
 
-      if (!_.isEmpty(phone)) {
         const result = await findRestaurantByPhone(phone);
         if (!_.isEmpty(result.businesses)) {
           const item = result.businesses[0];
@@ -207,14 +215,16 @@ bot.onText(/\/findRestaurantByPhone/, (msg) => {
           const rating = item.rating;
           const latitude = item.coordinates.latitude;
           const longitude = item.coordinates.longitude;
-          const locationStr = item.location.display_address.join(', ');
           const phone = item.display_phone;
+          const locationStr = item.location.display_address.join(', ');
+          const url = item.url;
 
           const resultMessage = `
             <b>Name:</b> ${name}
 <b>Rating:</b> ${rating}
 <b>Phone:</b> ${phone}
 <b>Address:</b> ${locationStr}
+<b>Url:</b> <a href="${url}">Open url</a>
           `;
           await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
           await bot.sendVenue(chatId, latitude, longitude, name, locationStr);
@@ -223,6 +233,9 @@ bot.onText(/\/findRestaurantByPhone/, (msg) => {
           const resultMessage = `There are no result`;
           await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
         }
+      } else {
+        const resultMessage = `Phone format is wrong`;
+        await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
       }
     }
   });
@@ -236,13 +249,6 @@ bot.on('message', (msg) => {
     delete answerCallbacks[chatId];
     return callback(msg);
   }
-});
-
-bot.on('location', (msg) => {
-  const latitude = msg.location.latitude;
-  const longitude = msg.location.longitude;
-  console.log("latitude = ", latitude);
-  console.log("longitude = ", longitude);
 });
 
 console.log('lunchPickerBot is running');

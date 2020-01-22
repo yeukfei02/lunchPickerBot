@@ -29,12 +29,6 @@ Find restaurants by places
 /findRestaurantsByPlaces
 ```
 
-Find restaurants by current location
-
-```
-/findRestaurantsByCurrentLocation
-```
-
 Find restaurant by phone
 
 ```
