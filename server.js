@@ -53,29 +53,6 @@ function getAvailableCountry() {
     return availableCountryText;
 }
 
-async function getCategories() {
-  let result = null;
-
-  const response = await axios.get(
-    `${ROOT_URL}/api/category/get-categories`,
-    {
-      params: {
-        term: term,
-        location: location
-      },
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  );
-
-  if (!_.isEmpty(response)) {
-    result = response.data.categories;
-  }
-
-  return result;
-}
-
 async function findRestaurantsByLocation(term, location) {
   let result = null;
 
@@ -122,7 +99,7 @@ async function findRestaurantByPhone(phone) {
 }
 
 // /start
-bot.onText(/\/start/, (msg, match) => {
+bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
 
   const response = `
@@ -137,14 +114,14 @@ Find restaurants by places
 Find restaurant by phone
   `;
 
-  bot.sendMessage(chatId, response, {
+  await bot.sendMessage(chatId, response, {
     "reply_markup": {
       "keyboard": [["/start"], ["/findRestaurantsByPlaces"], ["/findRestaurantByPhone"]]
     }
   });
 
   const availableCountryText = getAvailableCountry();
-  bot.sendMessage(chatId, availableCountryText, {
+  await bot.sendMessage(chatId, availableCountryText, {
     "reply_markup": {
       "keyboard": [["/start"], ["/findRestaurantsByPlaces"], ["/findRestaurantByPhone"]]
     }
@@ -156,41 +133,52 @@ bot.onText(/\/findRestaurantsByPlaces/, (msg) => {
   const chatId = msg.chat.id;
 
   bot.sendMessage(chatId, 'Please enter your food category:').then(() => {
-    answerCallbacks[chatId] = (answer) => {
+    answerCallbacks[chatId] = async (answer) => {
       const term = answer.text;
 
-      bot.sendMessage(chatId, 'Please enter your location (address, city, place, street name, zip code, country, state, building name, etc...):').then(() => {
-        answerCallbacks[chatId] = async (answer) => {
-          const location = answer.text;
+      if (!_.isEmpty(term) && !term.includes('/')) {
+        bot.sendMessage(chatId, 'Please enter your location (address, city, place, street name, zip code, country, state, building name, etc...):').then(() => {
+          answerCallbacks[chatId] = async (answer) => {
+            const location = answer.text;
 
-          await bot.sendMessage(chatId, 'waiting...');
+            await bot.sendMessage(chatId, 'Please wait...');
 
-          if (!_.isEmpty(term) && !_.isEmpty(location)) {
-            const result = await findRestaurantsByLocation(term, location);
-            if (!_.isEmpty(result.businesses)) {
-              result.businesses.forEach(async (item, i) => {
-                const name = item.name;
-                const rating = item.rating;
-                const phone = item.display_phone;
-                const locationStr = item.location.display_address.join(', ');
-                const url = item.url;
+            try {
+              if (!_.isEmpty(term) && !_.isEmpty(location)) {
+                const result = await findRestaurantsByLocation(term, location);
+                if (!_.isEmpty(result.businesses)) {
+                  result.businesses.forEach(async (item, i) => {
+                    const name = item.name;
+                    const rating = item.rating;
+                    const phone = item.display_phone;
+                    const locationStr = item.location.display_address.join(', ');
+                    const url = item.url;
 
-                const resultMessage = `
-                  <b>Name:</b> ${name}
+                    const resultMessage = `
+                      <b>Name:</b> ${name}
 <b>Rating:</b> ${rating}
 <b>Phone:</b> ${phone}
 <b>Address:</b> ${locationStr}
 <b>Url:</b> <a href="${url}">Open url</a>
-                `;
-                await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
-              });
-            } else {
-                const resultMessage = `There are no results`;
-                await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
+                    `;
+                    await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
+                  });
+                } else {
+                    const resultMessage = `There are no results. /findRestaurantsByPlaces`;
+                    await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
+                }
+              }
+            } catch (e) {
+              console.log(`error = ${e.message}`);
+              const resultMessage = `Food category or location is not valid. /findRestaurantsByPlaces`;
+              await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
             }
           }
-        }
-      });
+        });
+      } else {
+        const resultMessage = `Invalid food category. /findRestaurantsByPlaces`;
+        await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
+      }
     }
   });
 });
@@ -204,7 +192,7 @@ bot.onText(/\/findRestaurantByPhone/, (msg) => {
       const phone = answer.text.replace(/\s/g, "");
 
       if (!_.isEmpty(phone) && /^[+\d]+$/.test(phone)) {
-        bot.sendMessage(chatId, 'waiting...');
+        await bot.sendMessage(chatId, 'Please wait...');
 
         const result = await findRestaurantByPhone(phone);
         if (!_.isEmpty(result.businesses)) {
@@ -230,11 +218,11 @@ bot.onText(/\/findRestaurantByPhone/, (msg) => {
           await bot.sendVenue(chatId, latitude, longitude, name, locationStr);
           await bot.sendPhoto(chatId, imageUrl);
         } else {
-          const resultMessage = `There are no result`;
+          const resultMessage = `There are no result. /findRestaurantByPhone`;
           await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
         }
       } else {
-        const resultMessage = `Phone format is wrong`;
+        const resultMessage = `Phone format is wrong. /findRestaurantByPhone`;
         await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
       }
     }
