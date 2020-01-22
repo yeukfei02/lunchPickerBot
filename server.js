@@ -143,12 +143,12 @@ bot.onText(/\/findRestaurantsByPlaces/, (msg) => {
         answerCallbacks[chatId] = async (answer) => {
           const location = answer.text;
 
-          bot.sendMessage(chatId, 'waiting...');
+          await bot.sendMessage(chatId, 'waiting...');
 
           if (!_.isEmpty(term) && !_.isEmpty(location)) {
             const result = await findRestaurantsByLocation(term, location);
             if (!_.isEmpty(result.businesses)) {
-              result.businesses.forEach((item, i) => {
+              result.businesses.forEach(async (item, i) => {
                 const name = item.name;
                 const rating = item.rating;
                 const phone = item.display_phone;
@@ -162,11 +162,11 @@ bot.onText(/\/findRestaurantsByPlaces/, (msg) => {
 <b>Address:</b> ${locationStr}
 <b>Url:</b> <a href="${url}">Open in yelp</a>
                 `;
-                bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
+                await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
               });
             } else {
                 const resultMessage = `There are no results`;
-                bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
+                await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
             }
           }
         }
@@ -216,12 +216,12 @@ bot.onText(/\/findRestaurantByPhone/, (msg) => {
 <b>Phone:</b> ${phone}
 <b>Address:</b> ${locationStr}
           `;
-          bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
-          bot.sendVenue(chatId, latitude, longitude, name, locationStr);
-          bot.sendPhoto(chatId, imageUrl);
+          await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
+          await bot.sendVenue(chatId, latitude, longitude, name, locationStr);
+          await bot.sendPhoto(chatId, imageUrl);
         } else {
           const resultMessage = `There are no result`;
-          bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
+          await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
         }
       }
     }
