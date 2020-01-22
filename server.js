@@ -102,6 +102,7 @@ async function findRestaurantByPhone(phone) {
 bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
 
+  const availableCountryText = getAvailableCountry();
   const response = `
     ### Example command ###
 /start
@@ -112,16 +113,11 @@ Find restaurants by places
 
 /findRestaurantByPhone
 Find restaurant by phone
+
+${availableCountryText}
   `;
 
   await bot.sendMessage(chatId, response, {
-    "reply_markup": {
-      "keyboard": [["/start"], ["/findRestaurantsByPlaces"], ["/findRestaurantByPhone"]]
-    }
-  });
-
-  const availableCountryText = getAvailableCountry();
-  await bot.sendMessage(chatId, availableCountryText, {
     "reply_markup": {
       "keyboard": [["/start"], ["/findRestaurantsByPlaces"], ["/findRestaurantByPhone"]]
     }
