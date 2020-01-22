@@ -40,3 +40,7 @@ Find restaurant by phone
 ```
 /findRestaurantByPhone
 ```
+
+## Contributing
+
+Please refer to [CONTRIBUTING.md](https://github.com/yeukfei02/lunchPickerBot/blob/master/CONTRIBUTING.md)
