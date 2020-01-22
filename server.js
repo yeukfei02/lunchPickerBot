@@ -111,6 +111,8 @@ bot.onText(/\/start/, (msg, match) => {
 
   const response = `
     ### Example command ###
+/start
+Show all example command
 
 /findRestaurantsByPlaces
 Find restaurants by places
