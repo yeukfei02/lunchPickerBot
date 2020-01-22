@@ -10,6 +10,8 @@ Please create an issue in [issue page](https://github.com/yeukfei02/lunchPickerB
 
 1. Fork the repo
 
+1.1 Add a Linting tool eg [JSLint](https://github.com/douglascrockford/JSLint), to better debug your code.(Optional)
+
 2. Create a new branch from the master branch
 
  branch name: `add-text-#<issue-number>`
