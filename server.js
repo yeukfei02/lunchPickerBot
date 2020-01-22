@@ -160,7 +160,7 @@ bot.onText(/\/findRestaurantsByPlaces/, (msg) => {
 <b>Rating:</b> ${rating}
 <b>Phone:</b> ${phone}
 <b>Address:</b> ${locationStr}
-<b>Url:</b> <a href="${url}">Open in yelp</a>
+<b>Url:</b> <a href="${url}">Open url</a>
                 `;
                 await bot.sendMessage(chatId, resultMessage, {parse_mode : "HTML"});
               });
@@ -191,7 +191,7 @@ bot.onText(/\/findRestaurantsByCurrentLocation/, (msg) => {
 bot.onText(/\/findRestaurantByPhone/, (msg) => {
   const chatId = msg.chat.id;
 
-  bot.sendMessage(chatId, 'Please enter restaurant phone (with country code and no space):').then(() => {
+  bot.sendMessage(chatId, 'Please enter restaurant phone (with country code):').then(() => {
     answerCallbacks[chatId] = async (answer) => {
       const phone = answer.text.replace(/\s/g, "");
 
