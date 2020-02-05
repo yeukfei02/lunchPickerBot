@@ -17,7 +17,8 @@
     "prettier": "^1.19.1"
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "dev": "NOVE_ENV=development nodemon server.js",
+    "start": "NOVE_ENV=production nodemon server.js",
     "lint": "eslint . --quiet --fix"
   }
 }
