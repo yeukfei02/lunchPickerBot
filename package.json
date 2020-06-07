@@ -10,6 +10,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.5",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-telegram-bot-api": "^0.40.0",
@@ -20,5 +21,11 @@
     "dev": "NOVE_ENV=development nodemon server.js",
     "start": "NOVE_ENV=production nodemon server.js",
     "lint": "eslint . --quiet --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint",
+      "pre-push": "yarn lint"
+    }
   }
 }
