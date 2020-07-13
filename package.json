@@ -20,7 +20,8 @@
   "scripts": {
     "dev": "NOVE_ENV=development nodemon server.js",
     "start": "NOVE_ENV=production nodemon server.js",
-    "lint": "eslint . --quiet --fix"
+    "lint": "eslint . --quiet --fix",
+    "commit": "npx git-cz"
   },
   "husky": {
     "hooks": {
