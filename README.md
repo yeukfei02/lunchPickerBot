@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="https://github.com/yeukfei02/lunchPickerBot/blob/master/readme-icon.png" width="200" height="200">
+</p>
+
 # lunchPickerBot
 
 [![Discord](https://img.shields.io/discord/709292977515921469)](https://discord.gg/jNCBs2D)
