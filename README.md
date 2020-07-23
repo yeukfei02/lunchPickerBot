@@ -1,10 +1,11 @@
 <p align="center">
-    <img src="https://github.com/yeukfei02/lunchPickerBot/blob/master/readme-icon.png" width="200" height="200">
+  <img width="200px" src="https://github.com/yeukfei02/lunchPickerBot/blob/master/readme-icon.png"><br/>
+  <h2 align="center">lunchPickerBot</h2>
 </p>
 
-# lunchPickerBot
-
-[![Discord](https://img.shields.io/discord/709292977515921469)](https://discord.gg/jNCBs2D)
+<p align="center">
+  <a href="https://discord.gg/jNCBs2D"><img src="https://img.shields.io/discord/709292977515921469" alt=""></a>
+</p>
 
 If you’re a working software engineer, you’ve probably encountered with one of the toughest questions, where should I have lunch?
 
