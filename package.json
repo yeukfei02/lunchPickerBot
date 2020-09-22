@@ -1,6 +1,6 @@
 {
   "name": "lunchPickerBot",
-  "version": "1.0.0",
+  "version": "1.0.8",
   "main": "server.js",
   "repository": "https://github.com/yeukfei02/lunchPickerBot.git",
   "author": "Donald Wu <yeukfei02@gmail.com>",
@@ -16,13 +16,15 @@
     "moment": "^2.24.0",
     "node-telegram-bot-api": "^0.40.0",
     "nodemon": "^2.0.2",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "standard-version": "^9.0.0"
   },
   "scripts": {
     "dev": "NOVE_ENV=development nodemon server.js",
     "start": "NOVE_ENV=production nodemon server.js",
     "lint": "eslint . --quiet --fix",
-    "commit": "npx git-cz"
+    "commit": "npx git-cz",
+    "release": "standard-version"
   },
   "husky": {
     "hooks": {
