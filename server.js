@@ -9,7 +9,7 @@ const _ = require('lodash');
 const token = process.env.TELEGRAM_BOT_KEY;
 const bot = new TelegramBot(token, { polling: true });
 
-const ROOT_URL = `https://lunch-picker-api.herokuapp.com`;
+const ROOT_URL = `https://www.lunch-picker-api.com/api`;
 
 let answerCallbacks = {};
 
@@ -56,7 +56,7 @@ function getAvailableCountry() {
 async function findRestaurantsByLocation(term, location) {
   let result = null;
 
-  const response = await axios.get(`${ROOT_URL}/api/restaurant/find-restaurants-by-location`, {
+  const response = await axios.get(`${ROOT_URL}/restaurant/find-restaurants-by-location`, {
     params: {
       term: term,
       location: location,
@@ -76,7 +76,7 @@ async function findRestaurantsByLocation(term, location) {
 async function findRestaurantByPhone(phone) {
   let result = null;
 
-  const response = await axios.get(`${ROOT_URL}/api/restaurant/find-restaurant-by-phone`, {
+  const response = await axios.get(`${ROOT_URL}/restaurant/find-restaurant-by-phone`, {
     params: {
       phone: phone,
     },
