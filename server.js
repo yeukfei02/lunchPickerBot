@@ -1,5 +1,8 @@
 process.env.NTBA_FIX_319 = 1;
 
+const env = require('dotenv');
+env.config();
+
 // bot name: lunchPickerMyBot
 // link: http://t.me/lunchPickerMyBot
 const TelegramBot = require('node-telegram-bot-api');
