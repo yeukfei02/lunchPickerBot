@@ -11,12 +11,14 @@ If you’re a working software engineer, you’ve probably encountered with one 
 
 Lunch picker is the tool you’ll turn to to answer this question.
 
-## Requirement:
+## Requirement
+
 - install yarn
 - install node (v12+)
 
-## Testing and run:
-```
+## Testing and run
+
+```zsh
 $ yarn
 
 // development
@@ -29,25 +31,25 @@ $ yarn run start
 $ yarn run lint
 ```
 
-Open http://t.me/lunchPickerMyBot
+Open <http://t.me/lunchPickerMyBot>
 
-## Example command:
+## Example command
 
 Show all example command
 
-```
+```zsh
 /start
 ```
 
 Find restaurants by places
 
-```
+```zsh
 /findRestaurantsByPlaces
 ```
 
 Find restaurant by phone
 
-```
+```zsh
 /findRestaurantByPhone
 ```
 
