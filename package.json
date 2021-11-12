@@ -10,8 +10,7 @@
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "node-telegram-bot-api": "^0.40.0",
-    "nodemon": "^2.0.2"
+    "node-telegram-bot-api": "^0.40.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
@@ -19,12 +18,13 @@
     "eslint-plugin-prettier": "^3.1.2",
     "git-cz": "^4.7.0",
     "husky": "^4.2.5",
+    "nodemon": "^2.0.15",
     "prettier": "^1.19.1",
     "standard-version": "^9.0.0"
   },
   "scripts": {
     "dev": "NOVE_ENV=development nodemon server.js",
-    "start": "NOVE_ENV=production nodemon server.js",
+    "start": "NOVE_ENV=production node server.js",
     "lint": "eslint . --quiet --fix",
     "commit": "git-cz",
     "release": "standard-version"
