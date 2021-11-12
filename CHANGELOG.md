@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://github.com/yeukfei02/lunchPickerBot/compare/v1.1.2...v1.1.3) (2021-11-12)
+
+
+### Bug Fixes
+
+* 🐛 fix rootUrl var and update readme.md ([63fc976](https://github.com/yeukfei02/lunchPickerBot/commit/63fc976b9370c52ce713a8e7addea9a9db0737be))
+
 ### [1.1.2](https://github.com/yeukfei02/lunchPickerBot/compare/v1.1.1...v1.1.2) (2020-12-12)
 
 ### [1.1.1](https://github.com/yeukfei02/lunchPickerBot/compare/v1.1.0...v1.1.1) (2020-10-19)
