@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.4](https://github.com/yeukfei02/lunchPickerBot/compare/v1.1.3...v1.1.4) (2021-11-12)
+
+
+### Bug Fixes
+
+* 🐛 fix package.json ([2c86c88](https://github.com/yeukfei02/lunchPickerBot/commit/2c86c882ba5c710c5c707d6fd9a9c4bb90d36ae2))
+* 🐛 move nodemon to devDependencies ([df928ca](https://github.com/yeukfei02/lunchPickerBot/commit/df928ca734ada2c5c212d1623a585643a5532b14))
+
 ### [1.1.3](https://github.com/yeukfei02/lunchPickerBot/compare/v1.1.2...v1.1.3) (2021-11-12)
 
 
