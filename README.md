@@ -14,7 +14,7 @@ Lunch picker is the tool you’ll turn to to answer this question.
 ## Requirement
 
 - install yarn
-- install node (v12+)
+- install node (v14+)
 
 ## Testing and run
 
